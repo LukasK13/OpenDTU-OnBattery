@@ -185,12 +185,14 @@ bool ConfigurationClass::write()
     powerlimiter["battery_drain_strategy"] = config.PowerLimiter.BatteryDrainStategy;
     powerlimiter["interval"] = config.PowerLimiter.Interval;
     powerlimiter["is_inverter_behind_powermeter"] = config.PowerLimiter.IsInverterBehindPowerMeter;
+    powerlimiter["is_inverter_solar_powered"] = config.PowerLimiter.IsInverterSolarPowered;
     powerlimiter["inverter_id"] = config.PowerLimiter.InverterId;
     powerlimiter["inverter_channel_id"] = config.PowerLimiter.InverterChannelId;
     powerlimiter["target_power_consumption"] = config.PowerLimiter.TargetPowerConsumption;
     powerlimiter["target_power_consumption_hysteresis"] = config.PowerLimiter.TargetPowerConsumptionHysteresis;
     powerlimiter["lower_power_limit"] = config.PowerLimiter.LowerPowerLimit;
     powerlimiter["upper_power_limit"] = config.PowerLimiter.UpperPowerLimit;
+    powerlimiter["ignore_soc"] = config.PowerLimiter.IgnoreSoc;
     powerlimiter["battery_soc_start_threshold"] = config.PowerLimiter.BatterySocStartThreshold;
     powerlimiter["battery_soc_stop_threshold"] = config.PowerLimiter.BatterySocStopThreshold;
     powerlimiter["voltage_start_threshold"] = config.PowerLimiter.VoltageStartThreshold;
@@ -207,7 +209,8 @@ bool ConfigurationClass::write()
     battery["provider"] = config.Battery.Provider;
     battery["jkbms_interface"] = config.Battery.JkBmsInterface;
     battery["jkbms_polling_interval"] = config.Battery.JkBmsPollingInterval;
-    battery["mqtt_topic"] = config.Battery.MqttTopic;
+    battery["mqtt_topic"] = config.Battery.MqttSocTopic;
+    battery["mqtt_voltage_topic"] = config.Battery.MqttVoltageTopic;
 
     JsonObject huawei = doc.createNestedObject("huawei");
     huawei["enabled"] = config.Huawei.Enabled;
@@ -429,12 +432,14 @@ bool ConfigurationClass::read()
     config.PowerLimiter.BatteryDrainStategy = powerlimiter["battery_drain_strategy"] | POWERLIMITER_BATTERY_DRAIN_STRATEGY;
     config.PowerLimiter.Interval =  powerlimiter["interval"] | POWERLIMITER_INTERVAL;
     config.PowerLimiter.IsInverterBehindPowerMeter = powerlimiter["is_inverter_behind_powermeter"] | POWERLIMITER_IS_INVERTER_BEHIND_POWER_METER;
+    config.PowerLimiter.IsInverterSolarPowered = powerlimiter["is_inverter_solar_powered"] | POWERLIMITER_IS_INVERTER_SOLAR_POWERED;
     config.PowerLimiter.InverterId = powerlimiter["inverter_id"] | POWERLIMITER_INVERTER_ID;
     config.PowerLimiter.InverterChannelId = powerlimiter["inverter_channel_id"] | POWERLIMITER_INVERTER_CHANNEL_ID;
     config.PowerLimiter.TargetPowerConsumption = powerlimiter["target_power_consumption"] | POWERLIMITER_TARGET_POWER_CONSUMPTION;
     config.PowerLimiter.TargetPowerConsumptionHysteresis = powerlimiter["target_power_consumption_hysteresis"] | POWERLIMITER_TARGET_POWER_CONSUMPTION_HYSTERESIS;
     config.PowerLimiter.LowerPowerLimit = powerlimiter["lower_power_limit"] | POWERLIMITER_LOWER_POWER_LIMIT;
     config.PowerLimiter.UpperPowerLimit = powerlimiter["upper_power_limit"] | POWERLIMITER_UPPER_POWER_LIMIT;
+    config.PowerLimiter.IgnoreSoc = powerlimiter["ignore_soc"] | POWERLIMITER_IGNORE_SOC;
     config.PowerLimiter.BatterySocStartThreshold = powerlimiter["battery_soc_start_threshold"] | POWERLIMITER_BATTERY_SOC_START_THRESHOLD;
     config.PowerLimiter.BatterySocStopThreshold = powerlimiter["battery_soc_stop_threshold"] | POWERLIMITER_BATTERY_SOC_STOP_THRESHOLD;
     config.PowerLimiter.VoltageStartThreshold = powerlimiter["voltage_start_threshold"] | POWERLIMITER_VOLTAGE_START_THRESHOLD;
@@ -451,7 +456,8 @@ bool ConfigurationClass::read()
     config.Battery.Provider = battery["provider"] | BATTERY_PROVIDER;
     config.Battery.JkBmsInterface = battery["jkbms_interface"] | BATTERY_JKBMS_INTERFACE;
     config.Battery.JkBmsPollingInterval = battery["jkbms_polling_interval"] | BATTERY_JKBMS_POLLING_INTERVAL;
-    strlcpy(config.Battery.MqttTopic, battery["mqtt_topic"] | "", sizeof(config.Battery.MqttTopic));
+    strlcpy(config.Battery.MqttSocTopic, battery["mqtt_topic"] | "", sizeof(config.Battery.MqttSocTopic));
+    strlcpy(config.Battery.MqttVoltageTopic, battery["mqtt_voltage_topic"] | "", sizeof(config.Battery.MqttVoltageTopic));
 
     JsonObject huawei = doc["huawei"];
     config.Huawei.Enabled = huawei["enabled"] | HUAWEI_ENABLED;

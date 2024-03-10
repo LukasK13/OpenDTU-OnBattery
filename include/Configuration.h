@@ -207,12 +207,14 @@ struct CONFIG_T {
         uint8_t BatteryDrainStategy;
         uint32_t Interval;
         bool IsInverterBehindPowerMeter;
+        bool IsInverterSolarPowered;
         uint8_t InverterId;
         uint8_t InverterChannelId;
         int32_t TargetPowerConsumption;
         int32_t TargetPowerConsumptionHysteresis;
         int32_t LowerPowerLimit;
         int32_t UpperPowerLimit;
+        bool IgnoreSoc;
         uint32_t BatterySocStartThreshold;
         uint32_t BatterySocStopThreshold;
         float VoltageStartThreshold;
@@ -230,7 +232,8 @@ struct CONFIG_T {
         uint8_t Provider;
         uint8_t JkBmsInterface;
         uint8_t JkBmsPollingInterval;
-        char MqttTopic[MQTT_MAX_TOPIC_STRLEN + 1];
+        char MqttSocTopic[MQTT_MAX_TOPIC_STRLEN + 1];
+        char MqttVoltageTopic[MQTT_MAX_TOPIC_STRLEN + 1];
     } Battery;
 
     struct {

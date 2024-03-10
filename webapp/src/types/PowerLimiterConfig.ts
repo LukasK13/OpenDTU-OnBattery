@@ -5,12 +5,14 @@ export interface PowerLimiterConfig {
     solar_passthrough_losses: number;
     battery_drain_strategy: number;
     is_inverter_behind_powermeter: boolean;
+    is_inverter_solar_powered: boolean;
     inverter_id: number;
     inverter_channel_id: number;
     target_power_consumption: number;
     target_power_consumption_hysteresis: number;
     lower_power_limit: number;
     upper_power_limit: number;
+    ignore_soc: boolean;
     battery_soc_start_threshold: number;
     battery_soc_stop_threshold: number;
     voltage_start_threshold: number;
